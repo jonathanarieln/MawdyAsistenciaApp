@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Capas";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+        <hr>
+        <h2 class="mt-4">Una opinión acerca de la arquitectura en capas</h2>
+        <p class="text-justify">La arquitectura en capas consiste a grandes rasgos es separar en nuestros proyectos cada parte que tiene que ver con el negocio y reflejarlo dentro del nuestro directorio</p>
+        <p class="text-justify">Se trata de separar cada parte que conforma la aplicación en diferentes capas este caso lo llaman la capa de presentación, la capa de negocio y la capa de datos</p>
+        <p class="text-justify">Lo que se busca a final de cuentas es que se tenga una división clara y unica de responsabilidades por capas</p>
+        <p class="text-justify">En mi experiencia y adjuntando el ejemplo siguiente el framework de php (LARAVEL) utiliza una separación en capas, teniendo por un lado las vistas (Capa de presentación) que se comunican unicamente con los controladores (Capa de negocio) y estos a su vez con los modelos para obtener acceso a los datos(Capa de Datos), adicional se tienen mas directorios para dividir las responsabilidad, como ser un directorio unico para rutas dentro de la aplicación, otro para temas relacionados a migraciones y datos de pruebas, otro para las configuraciones y asi sucesivamente</p>
+
+        <ul>
+                <li>
+                    <a >The Root Directory</a>
+                    <ul>
+                        <li>
+                            <a >The <code>app</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>bootstrap</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>config</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>database</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>public</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>resources</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>routes</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>storage</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>tests</code> Directory</a>
+                        </li>
+                        <li>
+                            <a >The <code>vendor</code> Directory</a>
+                        </li>
+                    </ul>
+                </li>
+        </ul>
+
+    </div>
+</body>
+</html>

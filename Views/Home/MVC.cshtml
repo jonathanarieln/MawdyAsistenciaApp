@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Modelo Vista Controlador";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+        <hr>
+        <h2 class="mt-4">Una opinión acerca del patron de diseño Modelo Vista Controlador</h2>
+        <p class="text-justify">Al ser llamado patron de diseño se refiere a un conjunto de convenciones que se definen con el objetivo de tener mejores prácticas de programación y optimizar los flujos de trabajo en equipo.</p>
+        <p class="text-justify">El objetivo del MVC es organizar el código de manera que sea más sencillo para el equipo identificar donde está cada cosa.</p>
+        <p class="text-justify">En el modelo estará la estructura y conexión a datos, los modelos se relacionan directamente a los datos, algunos framework ofrecen soluciones para hacer una conexión directa del modelo con la base de datos por medio de un ORM(Object Relational Mapping) que vincula automáticamente el Modelo con la tabla simplemente siguiendo la convención de nombre: Nombre modelo: Usuario Nombre tabla en base de datos: Usuarios.</p>
+        <p class="text-justify">En el controlador toda la lógica de programación (Funciones y redireccionamiento de las vistas) y es la conexión entre las vistas y los modelos, y en la vista estará todo el diseño y suelen usar sistemas de plantillas como razor o blade para conectarse con mayor facilidad a los modelos.</p>
+    </div>
+</body>
+</html>

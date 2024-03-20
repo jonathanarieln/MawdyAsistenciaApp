@@ -1,0 +1,163 @@
+﻿@{
+    ViewData["Title"] = "Análisis de datos";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<h2>Tiempo medio de Envío de las órdenes</h2>
+
+<p>Aquí hay un ejemplo de cómo calcular el tiempo medio en Excel:</p>
+
+<img src="~/img/Tiempo medio.png" alt="Tiempo Medio de Envío" class="img-fluid border" style="max-width: 100%; height: auto;">
+
+<p>Para calcular el tiempo medio de envío, podemos sumar todos los tiempos individuales de envío en Excel y dividir el resultado por el número total de registros. Esto se hace utilizando la fórmula <code>=PROMEDIO(rango)</code>, donde <code>rango</code> es el conjunto de celdas que contienen los tiempos de envío.</p>
+
+<p>El número total de registros se puede contar utilizando la función <code>=CONTARA(rango)</code> en Excel.</p>
+
+<p>En excel podemos notar los promedios solo seleccionando los datos como se muestra en la imagen pero con la formula nos da el dato exacto que es: <strong>@ViewData["AverageShippingTimeDays"] días</strong>.</p>
+
+
+<h2>Conocer el tiempo de envío de las órdenes en los percentiles de interés</h2>
+
+<p>Excel nos brinda formulas que nos calculan los percentiles de interes y lo podemos hacer de la siguiente manera:</p>
+
+<img src="~/img/Percentiles.png" alt="Tiempo Medio de Envío" class="img-fluid border" style="max-width: 100%; height: auto;">
+
+<p>
+    Percentil 25% (Primer Cuartil): Este valor indica que el 25% de los datos son iguales o menores que este número. Es un indicador de la “parte inferior” de la distribución de tus datos.</p>
+<p>
+    Percentil 50% (Mediana): Este valor es el punto medio de los datos. La mitad de los datos son menores que este valor y la otra mitad son mayores.
+</p>
+<p>
+    Percentil 75% (Tercer Cuartil): Este valor muestra que el 75% de los datos son iguales o menores que este número, lo que te da una idea de la “parte superior” de la distribución de tus datos.
+</p>
+
+<p>
+    Con esta información podemos identificar en que percentil esta cada uno de los envios de acuerdo a los dias que tarda su entrega siendo el primer percentil el que tiene los tiempos mas cortos de viaje    
+</p>
+
+
+<h2>Obtener las ventas netas en las diferentes dimensiones</h2>
+<p>
+    El termino de ventas netas es la ganancia total que tiene la empresa pero se deben restar devoluciones, bonificaciones y rebajas.
+    En este conjunto tenemos la ganacia de amazon por cada registro de venta en el campo profit que representa las ganancias para amazon y para este ejemplo mostraremos el resultado de ganacias de amazon por categoria:
+</p>
+
+<table class="table table-bordered table-hover table-responsive">
+    <thead class="thead-dark">
+        <tr>
+            <th>Categoría</th>
+            <th>Ganancias Totales</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewData["TotalProfitsByCategory"] as Dictionary<string, decimal>)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    Podemos notar que hay registros que en lugar de generar ganacias generan perdidas pero a pesar de ello la compañia obtiene una ganacia total de 108418.45 y podemos indicar que a pesar de vender productos que producen perdidad la compañia siempre tiene notables ganancias
+</p>
+
+
+<h2>Generar un pequeño reporte/análisis de las ventas en un periodo X</h2>
+
+<p>Para este ultimo analisis debemos recibir las fechas que indique el usuario para dentro de esas fechas poder calcular el total de ganacias y utilizaremos el campo Order Date que es la fecha que se recibe el pago y el campo Sales que represante cuanto fue la ganacia de la venta</p>
+
+
+<form class="text-center" method="get" action="/Home/Datos">
+    <div class="form-group">
+        <label for="fechaInicio">Fecha Inicio:</label>
+        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+    </div>
+    <div class="form-group">
+        <label for="fechaFin">Fecha Fin:</label>
+        <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Obtener Ventas Totales</button>
+</form>
+
+@{
+    bool mostrarModal = ViewData["MostrarModal"] != null && (bool)ViewData["MostrarModal"];
+}
+
+<!--No funcionan los modales queda pendiente-->
+@if (mostrarModal)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Total de Ventas</th>
+                <th>Total de Órdenes</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>@ViewData["TotalVentas"]</td>
+                    <td>@ViewData["TotalRegistros"]</td>
+                </tr>
+        </tbody>
+    </table>
+
+    @if (Model.Count > 0)
+    {
+
+
+
+        <canvas id="myChart" width="400" height="400"></canvas>
+
+            @section scripts {
+                <script>
+                    // Obtener los datos desde el modelo de Razor
+                    var labels = [];
+                    var salesData = [];
+
+                    @foreach (var order in Model)
+                    {
+                        <text>var fechaOrden = '@order.OrderDate' </text>
+                        <text> if (!labels.includes(fechaOrden)) {
+                        labels.push(fechaOrden);
+                        }</text>
+
+                        <text>salesData.push('@order.Sales');</text>
+                    }
+
+                    // Configurar el gráfico
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Ventas',
+                                data: salesData,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            }
+
+            <!-- Canvas para el gráfico -->
+            <canvas id="elChart" width="400" height="200"></canvas>
+    }
+}
+
+
+
+

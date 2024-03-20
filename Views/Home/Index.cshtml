@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Buscador de registros MAWDY</h1>
+</div>
+
+<form class="text-center" method="get" action="/Home/Index">
+    <input type="text" name="searchString" placeholder="Buscar registro..."
+    maxlength="70" style="width: 300px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+    <button type="submit">Buscar</button>
+</form>
+
+@if (Model.Count > 0)
+{
+    <table style="border-collapse: collapse; width: 100%;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Nombre Completo</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Nombre de Contrato</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Dirección</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Placa</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Chasis</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Motor</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Póliza</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">DNI</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var titular in Model)
+            {
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@titular.NombreCompleto</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@titular.NombreContrato</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@titular.Direccion</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@titular.Placa</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@titular.Chasis</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@titular.Motor</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@titular.Poliza</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@titular.DNI</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
